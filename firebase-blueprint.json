@@ -1,0 +1,348 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated TableTrail user profile with RBAC role and account status.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "photoUrl": { "type": "string" },
+        "role": { "type": "string", "enum": ["customer", "owner", "admin"] },
+        "status": { "type": "string", "enum": ["active", "blocked"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "name", "email", "phone", "photoUrl", "role", "status", "createdAt", "updatedAt"]
+    },
+    "AdminMarker": {
+      "title": "AdminMarker",
+      "description": "Trusted admin role assignment document.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "createdAt"]
+    },
+    "Restaurant": {
+      "title": "Restaurant",
+      "description": "Restaurant listing with cuisines, dietary tags, hours, slots, photos, and approval/active state.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "cuisines": { "type": "array" },
+        "city": { "type": "string" },
+        "address": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "priceRange": { "type": "string", "enum": ["$", "$$", "$$$", "$$$$"] },
+        "dietaryOptions": { "type": "array" },
+        "openingHours": { "type": "string" },
+        "holidayClosures": { "type": "array" },
+        "timeSlots": { "type": "array" },
+        "logoUrl": { "type": "string" },
+        "coverPhotoUrl": { "type": "string" },
+        "galleryUrls": { "type": "array" },
+        "ratingAvg": { "type": "number" },
+        "reviewCount": { "type": "integer" },
+        "status": { "type": "string", "enum": ["active", "suspended"] },
+        "featured": { "type": "boolean" },
+        "approved": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "ownerId", "name", "description", "cuisines", "city", "address", "phone", "email",
+        "priceRange", "dietaryOptions", "openingHours", "holidayClosures", "timeSlots",
+        "logoUrl", "coverPhotoUrl", "galleryUrls", "ratingAvg", "reviewCount",
+        "status", "featured", "approved", "createdAt", "updatedAt"
+      ]
+    },
+    "RestaurantRequest": {
+      "title": "RestaurantRequest",
+      "description": "Partner restaurant onboarding application reviewed by Admins.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string" },
+        "ownerName": { "type": "string" },
+        "restaurantName": { "type": "string" },
+        "cuisines": { "type": "array" },
+        "address": { "type": "string" },
+        "city": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "licenseNumber": { "type": "string" },
+        "description": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "coverPhotoUrl": { "type": "string" },
+        "galleryUrls": { "type": "array" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected", "info_requested"] },
+        "adminNote": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "ownerId", "ownerName", "restaurantName", "cuisines", "address", "city", "phone", "email",
+        "licenseNumber", "description", "logoUrl", "coverPhotoUrl", "galleryUrls",
+        "status", "adminNote", "createdAt", "updatedAt"
+      ]
+    },
+    "MenuCategory": {
+      "title": "MenuCategory",
+      "description": "Menu category for a restaurant (Starters, Mains, Desserts, Drinks).",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "name": { "type": "string" },
+        "sortOrder": { "type": "integer" },
+        "published": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["restaurantId", "ownerId", "name", "sortOrder", "published", "createdAt", "updatedAt"]
+    },
+    "MenuItem": {
+      "title": "MenuItem",
+      "description": "Dish item belonging to a restaurant and category.",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "categoryName": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "imageUrl": { "type": "string" },
+        "veg": { "type": "boolean" },
+        "popular": { "type": "boolean" },
+        "dietaryTags": { "type": "array" },
+        "available": { "type": "boolean" },
+        "published": { "type": "boolean" },
+        "rating": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "restaurantId", "ownerId", "categoryId", "categoryName", "name", "description",
+        "price", "imageUrl", "veg", "popular", "dietaryTags", "available", "published",
+        "rating", "createdAt", "updatedAt"
+      ]
+    },
+    "TableConfig": {
+      "title": "TableConfig",
+      "description": "Table inventory configuration for a restaurant.",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "label": { "type": "string" },
+        "capacity": { "type": "integer" },
+        "count": { "type": "integer" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["restaurantId", "ownerId", "label", "capacity", "count", "active", "createdAt", "updatedAt"]
+    },
+    "SlotBookingCount": {
+      "title": "SlotBookingCount",
+      "description": "Non-PII aggregate booking count per restaurant, date, and time slot.",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "date": { "type": "string" },
+        "timeSlot": { "type": "string" },
+        "bookedTables": { "type": "integer" },
+        "bookedSeats": { "type": "integer" },
+        "published": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["restaurantId", "date", "timeSlot", "bookedTables", "bookedSeats", "published", "updatedAt"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Customer table reservation with lifecycle status.",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "restaurantName": { "type": "string" },
+        "restaurantImageUrl": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "date": { "type": "string" },
+        "timeSlot": { "type": "string" },
+        "bookingEpochMillis": { "type": "integer" },
+        "partySize": { "type": "integer" },
+        "tableLabel": { "type": "string" },
+        "specialRequests": { "type": "string" },
+        "estimatedSpend": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "completed", "cancelled", "no-show"] },
+        "reviewed": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "restaurantId", "restaurantName", "restaurantImageUrl", "ownerId", "customerId",
+        "customerName", "customerPhone", "date", "timeSlot", "bookingEpochMillis",
+        "partySize", "tableLabel", "specialRequests", "estimatedSpend", "status",
+        "reviewed", "createdAt", "updatedAt"
+      ]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "Customer rating and review with optional owner reply and moderation status.",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "bookingId": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "rating": { "type": "integer" },
+        "comment": { "type": "string" },
+        "ownerReply": { "type": "string" },
+        "status": { "type": "string", "enum": ["visible", "removed"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "restaurantId", "ownerId", "bookingId", "customerId", "customerName",
+        "rating", "comment", "ownerReply", "status", "createdAt", "updatedAt"
+      ]
+    },
+    "Favorite": {
+      "title": "Favorite",
+      "description": "Customer saved favorite restaurant.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "restaurantId": { "type": "string" },
+        "restaurantName": { "type": "string" },
+        "restaurantCity": { "type": "string" },
+        "restaurantCoverUrl": { "type": "string" },
+        "restaurantRating": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "userId", "restaurantId", "restaurantName", "restaurantCity",
+        "restaurantCoverUrl", "restaurantRating", "createdAt"
+      ]
+    },
+    "ActivityLog": {
+      "title": "ActivityLog",
+      "description": "Chronological audit trail of admin actions.",
+      "type": "object",
+      "properties": {
+        "adminId": { "type": "string" },
+        "adminEmail": { "type": "string" },
+        "action": { "type": "string" },
+        "targetType": { "type": "string" },
+        "targetId": { "type": "string" },
+        "details": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["adminId", "adminEmail", "action", "targetType", "targetId", "details", "createdAt"]
+    },
+    "AppNotification": {
+      "title": "AppNotification",
+      "description": "In-app notification for booking and partner request status changes.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "type": { "type": "string" },
+        "read": { "type": "boolean" },
+        "relatedId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "message", "type", "read", "relatedId", "createdAt"]
+    },
+    "PlatformSettings": {
+      "title": "PlatformSettings",
+      "description": "Platform-wide cuisines, cities, featured restaurants, and homepage banner copy.",
+      "type": "object",
+      "properties": {
+        "cuisines": { "type": "array" },
+        "cities": { "type": "array" },
+        "featuredRestaurantIds": { "type": "array" },
+        "heroBannerTitle": { "type": "string" },
+        "heroBannerSubtitle": { "type": "string" },
+        "heroBannerCta": { "type": "string" },
+        "published": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "cuisines", "cities", "featuredRestaurantIds",
+        "heroBannerTitle", "heroBannerSubtitle", "heroBannerCta", "published", "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profiles with role and account status."
+    },
+    "/admins/{userId}": {
+      "schema": { "$ref": "#/entities/AdminMarker" },
+      "description": "Admin role directory."
+    },
+    "/restaurants/{restaurantId}": {
+      "schema": { "$ref": "#/entities/Restaurant" },
+      "description": "Approved and pending restaurants."
+    },
+    "/restaurantRequests/{requestId}": {
+      "schema": { "$ref": "#/entities/RestaurantRequest" },
+      "description": "Become a Partner Restaurant requests."
+    },
+    "/categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/MenuCategory" },
+      "description": "Menu categories per restaurant."
+    },
+    "/menuItems/{itemId}": {
+      "schema": { "$ref": "#/entities/MenuItem" },
+      "description": "Menu dishes per restaurant."
+    },
+    "/tables/{tableId}": {
+      "schema": { "$ref": "#/entities/TableConfig" },
+      "description": "Restaurant table inventory."
+    },
+    "/slotBookings/{slotId}": {
+      "schema": { "$ref": "#/entities/SlotBookingCount" },
+      "description": "Aggregate non-PII slot occupancy counters."
+    },
+    "/bookings/{bookingId}": {
+      "schema": { "$ref": "#/entities/Booking" },
+      "description": "Table bookings."
+    },
+    "/reviews/{reviewId}": {
+      "schema": { "$ref": "#/entities/Review" },
+      "description": "Customer reviews and owner replies."
+    },
+    "/favorites/{favoriteId}": {
+      "schema": { "$ref": "#/entities/Favorite" },
+      "description": "Customer favorite restaurants."
+    },
+    "/activityLogs/{logId}": {
+      "schema": { "$ref": "#/entities/ActivityLog" },
+      "description": "Admin audit trail."
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/AppNotification" },
+      "description": "User-scoped in-app notifications."
+    },
+    "/platformSettings/{settingId}": {
+      "schema": { "$ref": "#/entities/PlatformSettings" },
+      "description": "Platform configuration."
+    }
+  }
+}

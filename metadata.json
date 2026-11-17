@@ -1,0 +1,6 @@
+{
+  "name": "TableTrail",
+  "description": "Multi-role restaurant discovery and table-booking platform with Customer, Restaurant Owner, and Admin workflows.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
